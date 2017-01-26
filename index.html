@@ -24,7 +24,14 @@
         <button class="btn" type="submit" name="button">Enter</button>
       </form>
     </div>
-    <div class="">
+    <div class="hide-me">
+      <div class="">
+        <h1></h1>
+        <h1></h1>
+      </div>
+      <div class="reset">
+        <button type="button" class="btn" id="reset">Reset Game</button>
+      </div>
       <form class="" id="placeMark">
         <label for="row-coordinance">Enter Row</label>
         <input type="number" name="row-coordinance" id="row-coordinance">
@@ -33,37 +40,39 @@
         <button class="btn" type="submit" name="button" >Enter</button>
       </form>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <span id="11">1, 1</span>
+    <div class="hide-me" id = "board">
+      <div class="row">
+        <div class="col-md-4 border-bottom border-right">
+          <span id="11">1, 1</span>
+        </div>
+        <div class="col-md-4 border-bottom border-right">
+          <span id="12">1, 2</span>
+        </div>
+        <div class="col-md-4 border-bottom">
+          <span id="13">1, 3</span>
+        </div>
       </div>
-      <div class="col-md-4">
-        <span id="12">1, 2</span>
+      <div class="row">
+        <div class="col-md-4 border-bottom border-right">
+          <span id="21">2, 1</span>
+        </div>
+        <div class="col-md-4 border-bottom border-right">
+          <span id="22">2, 2</span>
+        </div>
+        <div class="col-md-4 border-bottom">
+          <span id="23">2, 3</span>
+        </div>
       </div>
-      <div class="col-md-4">
-        <span id="13">1, 3</span>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <span id="21">2, 1</span>
-      </div>
-      <div class="col-md-4">
-        <span id="22">2, 2</span>
-      </div>
-      <div class="col-md-4">
-        <span id="23">2, 3</span>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <span id="31">3, 1</span>
-      </div>
-      <div class="col-md-4">
-        <span id="32">3, 2</span>
-      </div>
-      <div class="col-md-4">
-        <span id="33">3, 3</span>
+      <div class="row">
+        <div class="col-md-4 border-right">
+          <span id="31">3, 1</span>
+        </div>
+        <div class="col-md-4 border-right">
+          <span id="32">3, 2</span>
+        </div>
+        <div class="col-md-4 margin">
+          <span id="33">3, 3</span>
+        </div>
       </div>
     </div>
   </div>

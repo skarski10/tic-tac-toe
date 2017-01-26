@@ -8,6 +8,7 @@ var space6 = new Space(2,3);
 var space7 = new Space(3,1);
 var space8 = new Space(3,2);
 var space9 = new Space(3,3);
+var i = 1;
 
 function PlayerInfo (userName, userMark) {
   this.playerName = userName;
@@ -22,6 +23,7 @@ function Space(row, column, userMark) {
   this.rowCoordinance = row;
   this.columnCoordinance = column;
   this.mark = userMark;
+  this.use = false;
 }
 
 function Game(player1, player2, board){
@@ -41,20 +43,25 @@ Board.prototype.searchSpace = function(row, col){
 }
 
 Space.prototype.markPlayer = function(Player){
-  console.log(Player);
-  console.log(Player.playerMark);
+  if (!this.use){
   this.mark = Player.playerMark;
-  console.log(this.mark);
+  this.use = true;
+  }
 }
 
-function Move(rowValue, colValue, game, index){ //rowV =1 , colVal = 1, game = newGame
-  if (index % 2 !== 0){
+function Move(rowValue, colValue, game){ //rowV =1 , colVal = 1, game = newGame
+  if (i % 2 !== 0){
     Player = game.player1;
   }else{
     Player = game.player2;
   }
   currentSpace = game.board.searchSpace(rowValue, colValue);
+  if (!currentSpace.use){
   currentSpace.markPlayer(Player);
+  i += 1;
+} else {
+  alert('Pick a different spot')
+}
   return currentSpace;
 }
 
@@ -62,23 +69,26 @@ function Move(rowValue, colValue, game, index){ //rowV =1 , colVal = 1, game = n
 $(document).ready(function() {
   $('#user-names').submit(function(event) {
     event.preventDefault();
+    $("#user-names").hide();
+    $(".hide-me").show();
     var playerOne = $('#player-one').val();
     var playerTwo = $('#player-two').val();
     var user1 = new PlayerInfo(playerOne, "X");
     var user2 = new PlayerInfo(playerTwo, "O");
     var newBoard = new Board(space1, space2, space3, space4, space5, space6, space7, space8, space9);
     var newGame = new Game(user1, user2, newBoard);
-    var i = 1;
     $('#placeMark').submit(function(event) {
       event.preventDefault();
       var rowSelected = parseInt($('#row-coordinance').val());//--->1
       var columnSelected = parseInt($('#column-coordinance').val());//--->1
-      var userTurn = Move(rowSelected, columnSelected, newGame, i);//Move(1,1,newGame)
+      var userTurn = Move(rowSelected, columnSelected, newGame);//Move(1,1,newGame)
       var turnRow = userTurn.rowCoordinance;
       var turnCol = userTurn.columnCoordinance;
       console.log('#' + turnRow + turnCol);
       $('#' + turnRow + turnCol).text(userTurn.mark);
-      i += 1;
     });
   });
+  $('#reset').click(function() {
+    location.reload();
+  })
 });
