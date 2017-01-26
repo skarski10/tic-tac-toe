@@ -8,11 +8,34 @@
   padding: 75px;
   text-align: center;
   font-size: 50px;
+  height: 220px;
+  cursor: pointer;
 }
 .margin {
   margin-bottom: 50px;
 }
 
-.hide-me {
-  display:none;
+#winner{
+  font-size: 100px;
+  z-index: 5;
+  text-align: center;
+  background-color:white;
+  color:red;
+  border:solid 1px black;
+  border-radius: 20px;
+  padding:5px;
 }
+
+#winning{
+  z-index: 4;
+  display:none;
+  text-align: center;
+  position:fixed;
+  left:0;
+  right:0;
+  width:100%;
+}
+
+/*.hide-me {
+  display:none;
+}*/

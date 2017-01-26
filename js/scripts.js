@@ -10,9 +10,12 @@ var space8 = new Space(3,2);
 var space9 = new Space(3,3);
 var i = 1;
 
-function PlayerInfo (userName, userMark) {
+var winConditions = [[11,12,13],[11,21,31],[11,22,33],[12,22,32],[13,23,33],[21,22,23],[31,32,33],[31,22,13]]
+
+function PlayerInfo (userName, userMark, userMove) {
   this.playerName = userName;
   this.playerMark = userMark;
+  this.playerMove = userMove;
 }
 
 function Board(space1, space2, space3, space4, space5, space6, space7, space8, space9) {
@@ -49,7 +52,7 @@ Space.prototype.markPlayer = function(Player){
   }
 }
 
-function Move(rowValue, colValue, game){ //rowV =1 , colVal = 1, game = newGame
+function Move(rowValue, colValue, game){
   if (i % 2 !== 0){
     Player = game.player1;
   }else{
@@ -58,11 +61,31 @@ function Move(rowValue, colValue, game){ //rowV =1 , colVal = 1, game = newGame
   currentSpace = game.board.searchSpace(rowValue, colValue);
   if (!currentSpace.use){
   currentSpace.markPlayer(Player);
+  Player.playerMove.push(rowValue*10+colValue);
+  // if(checkWin(Player.playerMove)){
+  //   alert(Player.playerName + ' wins!')
+  // }
   i += 1;
-} else {
-  alert('Pick a different spot')
+  } else {
+    alert('Pick a different spot')
+  }
+    return Player;
+  }
+
+function checkWin(playerArray){
+  for (var i=0; i<winConditions.length;i++){
+    count = 0;
+    for (var j=0; j<winConditions[i].length;j++){
+      for (var k=0; k<playerArray.length;k++){
+        if (playerArray[k] === winConditions[i][j]){
+          count+=1;
+          if (count === 3){
+            return true;
+          }
+      }
+    }
+  }
 }
-  return currentSpace;
 }
 
 // User logic
@@ -73,19 +96,25 @@ $(document).ready(function() {
     $(".hide-me").show();
     var playerOne = $('#player-one').val();
     var playerTwo = $('#player-two').val();
-    var user1 = new PlayerInfo(playerOne, "X");
-    var user2 = new PlayerInfo(playerTwo, "O");
+    var user1 = new PlayerInfo(playerOne, "X", []);
+    var user2 = new PlayerInfo(playerTwo, "O", []);
     var newBoard = new Board(space1, space2, space3, space4, space5, space6, space7, space8, space9);
     var newGame = new Game(user1, user2, newBoard);
-    $('#placeMark').submit(function(event) {
-      event.preventDefault();
-      var rowSelected = parseInt($('#row-coordinance').val());//--->1
-      var columnSelected = parseInt($('#column-coordinance').val());//--->1
-      var userTurn = Move(rowSelected, columnSelected, newGame);//Move(1,1,newGame)
-      var turnRow = userTurn.rowCoordinance;
-      var turnCol = userTurn.columnCoordinance;
-      console.log('#' + turnRow + turnCol);
-      $('#' + turnRow + turnCol).text(userTurn.mark);
+
+    $('.col-md-4').click(function(){
+      var rowSelected = parseInt($(this).find("span").attr('id').charAt(0));
+      var columnSelected = parseInt($(this).find("span").attr('id').charAt(1));
+      var userTurn = Move(rowSelected, columnSelected, newGame);
+      $('#' + rowSelected + columnSelected).text(userTurn.playerMark);
+      if(checkWin(userTurn.playerMove)){
+        $("#winner").text(userTurn.playerName + ' wins!');
+        $("#winning").show();
+      }else{
+        if (i===10){
+          $("#winner").text("Tie!");
+          $("#winning").show();
+        }
+      }
     });
   });
   $('#reset').click(function() {
