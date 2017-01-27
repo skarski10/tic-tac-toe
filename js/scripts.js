@@ -108,11 +108,11 @@ $(document).ready(function() {
       $('#' + rowSelected + columnSelected).text(userTurn.playerMark);
       if(checkWin(userTurn.playerMove)){
         $("#winner").text(userTurn.playerName + ' wins!');
-        $("#winning").show();
+        $("#winning").show().delay(5000).fadeOut();
       }else{
         if (i===10){
           $("#winner").text("Tie!");
-          $("#winning").show();
+          $("#winning").show().delay(5000).fadeOut();
         }
       }
     });
